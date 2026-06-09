@@ -1,2 +1,11 @@
-# sso-auth-system
-A full-stack web application with SSO (Single Sign-On) authentication. Users can log in via traditional username/password or through third-party OAuth providers including Google, Facebook, and GitHub. Built with secure session management and a unified auth flow.
+# SSO Auth System
+
+A full-stack web app with SSO authentication. Users can log in via email/password or OAuth providers including Google, Facebook, and GitHub. Built with React and Firebase Authentication.
+
+## Features
+- Email/Password Authentication
+- Google Login
+- Facebook Login
+- GitHub Login
+- Protected Routes
+- Built with React.js, Firebase & Tailwind CSS
