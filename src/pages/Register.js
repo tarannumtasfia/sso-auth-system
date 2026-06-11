@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth, createUserWithEmailAndPassword,googleProvider, signInWithPopup } from '../firebase';
+import { auth, githubProvider, createUserWithEmailAndPassword, googleProvider, signInWithPopup } from '../firebase';
 
 function Register() {
   const [name, setName] = useState('');
@@ -27,6 +27,17 @@ function Register() {
     setLoading(true);
     try {
       await signInWithPopup(auth, googleProvider);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message);
+    }
+    setLoading(false);
+  };
+  const handleGithubLogin = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      await signInWithPopup(auth, githubProvider);
       navigate('/dashboard');
     } catch (err) {
       setError(err.message);
@@ -95,7 +106,7 @@ function Register() {
         </div>
 
         <div className="space-y-3">
-        <button
+          <button
             onClick={handleGoogleLogin}
             disabled={loading}
             className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2 hover:bg-gray-50 transition font-medium text-gray-700 disabled:opacity-50"
@@ -103,7 +114,11 @@ function Register() {
             <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
             Continue with Google
           </button>
-          <button className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2 hover:bg-gray-50 transition font-medium text-gray-700">
+          <button
+            onClick={handleGithubLogin}
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2 hover:bg-gray-50 transition font-medium text-gray-700 disabled:opacity-50"
+          >
             <img src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub" className="w-5 h-5" />
             Continue with GitHub
           </button>
