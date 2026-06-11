@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth, signInWithEmailAndPassword, googleProvider, githubProvider, signInWithPopup } from '../firebase';
+import { auth, signInWithEmailAndPassword, facebookProvider, googleProvider, githubProvider, signInWithPopup } from '../firebase';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -38,6 +38,17 @@ function Login() {
     setLoading(true);
     try {
       await signInWithPopup(auth, githubProvider);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message);
+    }
+    setLoading(false);
+  };
+  const handleFacebookLogin = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      await signInWithPopup(auth, facebookProvider);
       navigate('/dashboard');
     } catch (err) {
       setError(err.message);
@@ -112,6 +123,7 @@ function Login() {
             Continue with GitHub
           </button>
           <button
+            onClick={handleFacebookLogin}
             disabled={loading}
             className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2 hover:bg-gray-50 transition font-medium text-gray-700 disabled:opacity-50"
           >
