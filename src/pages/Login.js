@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth, signInWithEmailAndPassword } from '../firebase';
+import { auth, signInWithEmailAndPassword, googleProvider, signInWithPopup } from '../firebase';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -15,6 +15,18 @@ function Login() {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message);
+    }
+    setLoading(false);
+  };
+
+  const handleGoogleLogin = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      await signInWithPopup(auth, googleProvider);
       navigate('/dashboard');
     } catch (err) {
       setError(err.message);
@@ -73,15 +85,25 @@ function Login() {
         </div>
 
         <div className="space-y-3">
-          <button className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2 hover:bg-gray-50 transition font-medium text-gray-700">
+          <button
+            onClick={handleGoogleLogin}
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2 hover:bg-gray-50 transition font-medium text-gray-700 disabled:opacity-50"
+          >
             <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
             Continue with Google
           </button>
-          <button className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2 hover:bg-gray-50 transition font-medium text-gray-700">
+          <button
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2 hover:bg-gray-50 transition font-medium text-gray-700 disabled:opacity-50"
+          >
             <img src="https://www.svgrepo.com/show/512317/github-142.svg" alt="GitHub" className="w-5 h-5" />
             Continue with GitHub
           </button>
-          <button className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2 hover:bg-gray-50 transition font-medium text-gray-700">
+          <button
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2 hover:bg-gray-50 transition font-medium text-gray-700 disabled:opacity-50"
+          >
             <img src="https://www.svgrepo.com/show/475647/facebook-color.svg" alt="Facebook" className="w-5 h-5" />
             Continue with Facebook
           </button>
